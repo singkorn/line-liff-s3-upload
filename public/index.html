@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LINE LIFF S3 Upload</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+
+<body>
+    <h1>Upload File to S3</h1>
+    <input type="file" id="fileInput" />
+    <button onclick="uploadFile()">Upload</button>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            console.log(result);
+        }
+
+        async function main() {
+            await liff.init({ liffId: 'your_liff_id' });
+            if (!liff.isLoggedIn()) {
+                liff.login();
+            }
+        }
+
+        main();
+    </script>
+</body>
+
+</html>
